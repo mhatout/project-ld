@@ -24,15 +24,30 @@
   <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
   <div class="container">
   <a class="navbar-brand" >
-    <img id="navbar-icon" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
+    <img id="navbar-icon" class="hide" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
   </a>
+  <button id="loginbtn" class="btn btn-sm align-right btn-outline-secondary hide" type="button"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
   </div>
   </nav> 
-  
   <!--end of navbar-->
-  <div id="login-div">
-  <!--start of jumbotron-->
-  <div id="main-con" class="container">
+
+  <!--start of intro div-->
+
+  <div id="intro-div" class="hide">
+   <div class="main-con container">
+    <div class="jumbotron">
+     <h1>Lucky Dolphin</h1>
+     <h2>Speak Friend and Enter</h2>
+    </div>
+   </div>
+  </div>
+
+  <!--end of intro div-->
+
+  <!--start of login div-->
+
+  <div id="login-div" class="hide">
+  <div class="main-con container">
    <div class="jumbotron">
     <form>
     <div class="form-group">
@@ -49,12 +64,54 @@
         Remember me
       </label>
     </div>
-    <button id="loginbtn" type="submit" class="btn btn-default"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
+    <button id="submitbtn" type="submit" class="btn btn-default"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
     </form>
    </div>
   </div>
-</div>
-  <!--end of jumbotron-->
+ </div>
+
+  <!--end of login div-->
+
+  <!--start of content div-->
+  <div id="content-div" class="hide" >
+   <div class="main-con container">
+     <form class="form-inline">
+      <input id="search-input" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      <button id="searchbtn" class="btn btn-outline-dark" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+      <button id="addbtn"type="button" class="btn btn-outline-dark disabled"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+     </form>
+     <table id="main-table" class="table table-hover">
+       <thead>
+         <tr>
+           <th scope="col">#</th>
+           <th scope="col">Vessle Name</th>
+           <th scope="col">Operation No</th>
+           <th scope="col">Username</th>
+         </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <th scope="row">1</th>
+         <td>Mark</td>
+         <td>Otto</td>
+         <td>@mdo</td>
+        </tr>
+        <tr>
+         <th scope="row">2</th>
+         <td>Jacob</td>
+         <td>Thornton</td>
+         <td>@fat</td>
+        </tr>
+        <tr>
+         <th scope="row">3</th>
+         <td colspan="2">Larry the Bird</td>
+         <td>@twitter</td>
+        </tr>
+       </tbody>
+    </table>
+   </div>
+  </div>
+  <!--end of content div-->
 
  </body>
 </html>

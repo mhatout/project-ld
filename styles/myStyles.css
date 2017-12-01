@@ -1,0 +1,44 @@
+
+#navbar-icon {
+	margin-right : 20px;
+	}
+body{
+	background : url("../images/background.jpg");     
+	background-size: cover;
+	background-repeat : no-repeat;
+	background-position : center;
+	margin-top: 80px;
+	min-height: 515px;
+}
+.jumbotron{
+	margin-top:15%;
+	background-color:transparent;
+}
+.main-con {
+    min-width:250px;
+	max-width:500px;
+}
+#intro-div{
+	text-align: center;
+}
+#search-input{
+	width: 60%;
+	margin-right: 1%
+}
+#navbar {
+	min-height: 50px;
+	max-height: 50px
+}
+.navbar-brand {
+	padding-bottom: .7225rem;
+}
+.hide{
+	display: none;
+}
+#searchbtn{
+	margin-right: 1%;
+}
+#main-table{
+	background-color:rgba(0, 0, 0, 0.1);
+	margin-top: 5px;
+}
