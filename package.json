@@ -1,0 +1,25 @@
+{
+  "name": "project-ld",
+  "version": "1.0.0",
+  "description": "Transit warehouse operation orders",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/Mhatout/project-ld.git"
+  },
+  "keywords": [
+    "Lucky",
+    "Dolphin"
+  ],
+  "author": "Mohamed M.Ataout",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/Mhatout/project-ld#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2"
+  }
+}

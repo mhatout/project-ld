@@ -9,9 +9,5 @@ $(document).ready(function(){
         		$("#loginbtn").hide("slow");
         	});
         });
-        $("#submitbtn").on("click" , function(){
-             $("#content-div").fadeIn(2000);
-             $("#login-div").hide();
-        });
-        
+       
 });

@@ -1,0 +1,54 @@
+<% include partials/header%>
+
+<!--start of navbar-->
+  <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
+  <div class="container">
+  <a class="navbar-brand" >
+    <img id="navbar-icon" class="hide" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
+  </a>
+  </div>
+  </nav> 
+  <!--end of navbar-->
+  
+<!--start of content div-->
+  <div id="content-div">
+   <div class="main-con container">
+     <form class="form-inline">
+      <input id="search-input" class="form-control" type="search" placeholder="Search" aria-label="Search">
+      <button id="searchbtn" class="btn btn-outline-dark" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+      <button id="addbtn"type="button" class="btn btn-outline-dark disabled"><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+     </form>
+     <table id="main-table" class="table table-hover">
+       <thead>
+         <tr>
+           <th scope="col">#</th>
+           <th scope="col">Vessle Name</th>
+           <th scope="col">Operation No</th>
+           <th scope="col">Status</th>
+         </tr>
+       </thead>
+       <tbody>
+        <tr>
+         <th scope="row">1</th>
+         <td>Mark</td>
+         <td>Otto</td>
+         <td>@mdo</td>
+        </tr>
+        <tr>
+         <th scope="row">2</th>
+         <td>Jacob</td>
+         <td>Thornton</td>
+         <td>@fat</td>
+        </tr>
+        <tr>
+         <th scope="row">3</th>
+         <td colspan="2">Larry the Bird</td>
+         <td>@twitter</td>
+        </tr>
+       </tbody>
+    </table>
+   </div>
+  </div>
+  <!--end of content div-->
+  
+  <% include partials/footer%>
