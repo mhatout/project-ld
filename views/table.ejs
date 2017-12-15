@@ -28,23 +28,14 @@
          </tr>
        </thead>
        <tbody>
+       <% for(var i=0 ; i<vessels.length; i++){%>
         <tr>
-         <th scope="row">1</th>
-         <td>Mark</td>
-         <td>Otto</td>
-         <td>@mdo</td>
+         <th scope="row"><%=i+1%></th>
+         <td><%= vessels[i].name; %></td>
+         <td><%= vessels[i].number;%></td>
+         <td><%= vessels[i].status;%></td>
         </tr>
-        <tr>
-         <th scope="row">2</th>
-         <td>Jacob</td>
-         <td>Thornton</td>
-         <td>@fat</td>
-        </tr>
-        <tr>
-         <th scope="row">3</th>
-         <td colspan="2">Larry the Bird</td>
-         <td>@twitter</td>
-        </tr>
+       <% } %>
        </tbody>
     </table>
    </div>
