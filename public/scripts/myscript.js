@@ -10,3 +10,7 @@ $(document).ready(function(){
         	});
         });
 });
+
+function showSnackbar(){
+	$('#snackbar').fadeIn(700).delay(2000).fadeOut(700);
+}

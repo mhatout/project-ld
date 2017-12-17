@@ -21,6 +21,8 @@
     </div>
    </div>
   </div>
+  
+  
 
   <!--end of intro div-->
 
@@ -29,7 +31,7 @@
   <div id="login-div" class="hide">
   <div class="main-con container">
    <div class="jumbotron">
-    <form  action="/table" method="post">
+    <form  action="/table" method="get">
     <div class="form-group">
        <label for="uname1">Username</label>
        <input type="text" class="form-control" name="uname1" id="uname1" required="" placeholder="Enter Username">
@@ -52,6 +54,6 @@
 
   <!--end of login div-->
 
-  
+  <div id="snackbar" class="hide">Some text some message..</div>
 
  <% include partials/footer%>
