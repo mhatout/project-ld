@@ -1,59 +1,145 @@
-
 <% include partials/header%>
-  <!--start of navbar-->
+
+<!--start of navbar-->
   <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
   <div class="container">
-  <a class="navbar-brand" >
+  <a class="navbar-brand" href="/">
     <img id="navbar-icon" class="hide" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
   </a>
-  <button id="loginbtn" class="btn btn-sm align-right btn-outline-secondary hide" type="button"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
+  <button id="addbtn" type="button" class="btn btn-sm align-right btn-outline-secondary "><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
   </div>
   </nav> 
-  <!--end of navbar-->
-
-  <!--start of intro div-->
-
-  <div id="intro-div" class="hide">
+<!--end of navbar-->
+  <div id="btn-div" class="hide">
+      <div id="inner-btn-div" class="main-con container">
+        <form action="/form" method="post"> 
+          <button id="add-vessel-btn" type="submit" name="add_vessel" class="btn btn-dark btn-lg"><i class="fa fa-ship" aria-hidden="true"></i> Add vessel</button>
+          <button id="add-user-btn" type="submit" name="add_user" class="btn btn-dark btn-lg"><i class="fa fa-user-plus" aria-hidden="true"></i> Add User</button>
+        </form>
+      </div>
+  </div>
+<!--start of content div-->
+  <div id="content-div">
    <div class="main-con container">
-    <div class="jumbotron">
-     <h1>Lucky Dolphin</h1>
-     <h2>Speak Friend and Enter</h2>
+     <form class="form-inline my-2 my-lg-0" action ="/find" method="post">
+      <input id="search-input" name ="searchinput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+      <div id="toggleRadioBtn" class="fluid ui button"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+<!--start of radio-btn div-->    
+     <div id="radioBtn-div" class="inline fields hide">
+     <label for="fruit">Search for vessel by:</label>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="searchRadioOptions" id="inlineRadio1" value="name">
+        <label>Name</label>
+      </div>
     </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="searchRadioOptions" id="inlineRadio2" value="operation">
+        <label>Operation</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="searchRadioOptions" id="inlineRadio3" value="status">
+        <label>Status</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="searchRadioOptions" id="inlineRadio4" value="supervisor">
+        <label>Supervisor</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="searchRadioOptions" id="inlineRadio5" value="purchaser">
+        <label>Purchaser</label>
+      </div>
+    </div>
+<!--end of radio-btn div-->      
+      </div>
+      </form>
+        <table id="mainTable" class="table table-hover">
+       <thead>
+         <tr class= 'tableRow'>
+           <th scope="col">#</th>
+           <th scope="col">Vessle Name</th>
+           <th scope="col">Op No</th>
+           <th scope="col">Status</th>
+         </tr>
+       </thead>
+       <tbody>
+       <% for(var i=0 ; i<vessels.length; i++){%>
+        <tr data-toggle="collapse" data-target="#hidden-row<%=i+1%>" class= 'tableRow'>
+         <th scope="row"><%=i+1%></th>
+         <td><%= vessels[i].name; %></td>
+         <td><%= vessels[i].operation;%></td>
+         <td id="statusCell<%=i%>"><%= vessels[i].status;%></td>
+        </tr>
+        <tr>
+            <td colspan="6" class="hiddenRow">
+                <div id = "hidden-row<%=i+1%>" class="accordian-body collapse hiddenTableRow">
+                    <div class="ui raised segment">
+                        <div class="card">
+                          <div class="header">
+                            <span><%= vessels[i].name; %></span>
+                            <span class="pull-right"> <%= vessels[i].operation;%></span>
+                          </div>
+                          <hr> 
+                         <div class="content">
+                             <p class="hide" id="vesselId<%=i%>"><%=vessels[i]._id;%></p>
+                         <small><%= vessels[i].created.toDateString()%></small>
+                         <div class="description">
+                            <p>
+                            <strong>Supervisor: </strong><span class="focus"><%=vessels[i].supervisor;%></span><br> 
+                            <strong>Purchaser: </strong><span class="focus"><%=vessels[i].purchaser;%></span><br>
+                            <span id="etaSpan<%=i%>"><strong>ETA: </strong><span class="focus"><%=vessels[i].eta;%></span></span>
+                            <span id="deliverDateSpan<%=i%>" class="hide"><strong>Delivery Date: </strong><span id="deliverDateField<%=i%>" class="focus"><%=vessels[i].deliverDate;%></span></span><br>
+                            <span id="recieverSpan<%=i%>" class="hide"><strong>Delivered to: </strong><span id='recieverField<%=i%>' class="focus"><%=vessels[i].reciever;%></span></span>
+                            </p>
+                         </div>
+                        </div>
+                        <div id= 'deliveryForm<%=i%>' class='deliveryForm hide'>
+                        <form class='ui form'>
+                          <div class="field">
+                          <div class="fields">
+                            <div class="ten wide field">
+                                <input id="inputRecipient<%=i%>" class="inputRecipient" name="Recipient-name" placeholder="Recipient name" required>
+                            </div>
+                            <div class="four wide field">
+                                <div id="deliveredBtn<%=i%>" class="ui secondary button deliveredBtn">Confirm</div>
+                            </div>
+                          </div>
+                          </div>
+                         </form>
+                         </div>
+                        <hr>
+                        <div id ="checkbox-div">
+                        <span class="pull-left"><strong id='preparedText<%=i%>'>Prepared:</strong> <input type="checkbox" id="preparedCheck<%=i%>" class="preparedCheck"></span>
+                        <span class="pull-left"><button id="additionBtn<%=i%>" class="tiny ui secondary basic button additionBtn hide"><i class="fa fa-plus" aria-hidden="true"></i> Add</button></span>
+                        <span class="pull-right"><button id="showDeliverFormBtn<%=i%>" class="tiny ui secondary basic button showDeliverFormBtn"><i class="fa fa-handshake-o" aria-hidden="true"></i> Deliver</button></span>
+                        </div>
+                    <div class="extra content">
+                     <div class="ui two buttons">
+                        <a href="/<%=vessels[i]._id%>/edit" id='editBtn<%=i%>' class="ui basic blue button editBtn">Edit</a>
+                        <div class="ui basic red button deleteBtn">Delete</div>
+                        <% include partials/deleteconfirm %>
+                     </div>
+                    </div>
+                       </div>
+                    </div>    
+                </div>
+            </td>
+        </tr>
+       <% } %>
+       </tbody>
+    </table>
    </div>
   </div>
+  <!--end of content div-->
   
+  <div id="snackbar" class="hide"><%=snackbartxt%></div>
   
-
-  <!--end of intro div-->
-
-  <!--start of login div-->
-
-  <div id="login-div" class="hide">
-  <div class="main-con container">
-   <div class="jumbotron">
-    <form  action="/content" method="post">
-    <div class="form-group">
-       <label for="uname1">Username</label>
-       <input type="text" class="form-control" name="uname1" id="uname1" required="" placeholder="Enter Username">
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" class="form-control" id="pwd1" required="" autocomplete="new-password" placeholder="Enter Password">
-    </div>
-    <div class="form-check">
-      <label class="form-check-label">
-        <input type="checkbox" class="form-check-input">
-        Remember me
-      </label>
-    </div>
-    <button id="submitbtn" type="submit" class="btn btn-default"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
-    </form>
-   </div>
-  </div>
- </div>
-
-  <!--end of login div-->
-
-  <div id="snackbar" class="hide">Some text some message..</div>
-
- <% include partials/footer%>
+  <% include partials/footer%>

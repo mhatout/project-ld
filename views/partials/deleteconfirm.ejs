@@ -1,0 +1,19 @@
+<div id="deleteModal<%=i+1%>" class="ui mini basic modal">
+    <div class="header">
+      Delete Record
+    </div>
+    <div class="content">
+      <p>Are you sure you want to delete this vessel</p>
+    </div>
+    <div class="actions">
+      <button class="ui button cancelBtn">
+        No
+      </button>
+      <form style="display:inline"action="/<%=vessels[i]._id%>/delete?_method=delete" method="POST">
+      <button type="submit" id ="deleteBtn<%=i+1%>" class="ui negative right labeled icon button">
+        Yes 
+        <i class="trash icon"></i>
+      </button>
+      </form>
+    </div>
+  </div>
