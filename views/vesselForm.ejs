@@ -1,0 +1,72 @@
+
+<% include partials/header%>
+
+<!--start of navbar-->
+  <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
+   <div class="container">
+    <a class="navbar-brand" href="/">
+     <img id="navbar-icon" class="hide" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
+    </a>
+   </div>
+  </nav> 
+ <!--end of navbar-->
+<!--start of input-vessel div-->
+<div id="input-vessel-div" style="padding-top:1%">
+<div class="main-con container">
+<form action="/add-vessel" method="post" class="ui form">
+  <h3 class="ui dividing header">Vessel details</h3>
+  <div class="two fields">
+    <div class="field">
+      <label for="vessel-name-input">Vessle Name</label>
+      <input type="text" class="form-control" name="vessel[name]" id="vessel-name-input" placeholder="Vessle Name"required>
+    </div>
+    <div class="field">
+      <label for="op-no-input">Op No</label>
+      <input type="text" class="form-control" name="vessel[operation]" id="op-no-input" placeholder="Op No" required>
+    </div>
+  </div>
+  <div class="three fields">
+    <div class="field">
+      <label for="supervisor">Supervisor</label>
+      <select class='ui fluid dropdown' name="vessel[supervisor]" id="supervisor" required>
+          <option disabled selected value=''>Supervisor</option>
+          <option value="Fawzy">Fawzy</option>
+          <option value="Soltan">Soltan</option>
+          <option value="Mos3ad">Mos3ad</option>
+          <option value="Rakha">Rakha</option>
+          <option value="Adel">Adel</option>
+          <option value="Othman">Othman</option>
+          <option value="Nabil">Nabil</option>
+          <option value="Ghitany">Ghitany</option>
+          <option value="Ayman">Ayman</option>
+      </select>  
+    </div>
+    <div class="field">
+      <label for="purchaser">Purchaser</label>
+      <select class='ui fluid dropdown' name="vessel[purchaser]" id="purchaser" required>
+          <option disabled selected value=''>Purchaser</option>
+          <option value='Rakha'>Rakha</option>
+          <option value='Adel'>Adel</option>
+          <option value='Othman'>Othman</option>
+          <option value='Nabil'>Nabil</option>
+          <option value='Ghitany'>Ghitany</option>
+          <option value='Ayman'>Ayman</option>
+          <option value='Fawzy'>Fawzy</option>
+          <option value='Soltan'>Soltan</option>
+          <option value='Mos3ad'>Mos3ad</option>
+      </select>  
+    </div>
+    <div class="field">
+      <label for="eta">ETA</label>
+      <input type="text" class="form-control" name="vessel[eta]" id="eta" placeholder="ETA" required>
+    </div>
+  </div>
+  <input type="text" class="form-control hide" name="vessel[createdBy]" id="createdBy" value="<%=currentUser.username%>" readonly required>
+  <button class="btn btn-dark" type="submit"><i class="fa fa-ship" aria-hidden="true"></i> Add Vessel</button>
+</form>
+</div>
+</div>
+<!--end of input-vessel div-->
+
+<div class='hide' id='snackbar'>Some text here...</div>
+  <% include partials/footer%>

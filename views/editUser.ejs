@@ -1,0 +1,61 @@
+<% include partials/header%>
+<!--start of navbar-->
+  <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
+   <div class="container">
+    <a class="navbar-brand" href="/">
+     <img id="navbar-icon" class="hide" src="../images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
+    </a>
+   </div>
+  </nav> 
+ <!--end of navbar-->
+<div class="main-con container" style="padding-top:1%">
+<form class="ui form" action="/<%=user._id%>/userEdit?_method=put" method="post">
+  <h1 class="ui center aligned icon header"><i class="fa fa-users" aria-hidden="true"></i></h1>
+  <h3 class="ui dividing header">Edit User</h3>
+  <div class="field">
+    <label for="username_input">Username</label>
+    <input type="username" class="form-control" name="username"  readonly value="<%=user.username%>" required>
+  </div>
+  <div class="two fields">
+   <div class="field">
+    <label for="password_input">Password</label>
+    <input type="password" class="form-control" name="password"  placeholder="New Password" suggested: "new-password" required>
+   </div>
+   <div class="field">
+      <label for="access">Access Level</label>
+      <% if(user.accessLevel === 'founder') { %>
+           <select class='ui fluid dropdown' name="accessLevel" id="access_input" disabled required>
+              <option disabled selected value=''>Access Level</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="viewer">Viewer</option>
+           </select>  
+         <% }else if(user.accessLevel === 'admin') {%>
+           <select class='ui fluid dropdown' name="accessLevel" id="access_input" required>
+              <option disabled value=''>Access Level</option>
+              <option selected value="admin">Admin</option>
+              <option value="user">User</option>
+              <option value="viewer">Viewer</option>
+           </select>  
+         <% }else if(user.accessLevel === 'user') {%>
+           <select class='ui fluid dropdown' name="accessLevel" id="access_input" required>
+              <option disabled value=''>Access Level</option>
+              <option value="admin">Admin</option>
+              <option selected value="user">User</option>
+              <option value="viewer">Viewer</option>
+           </select>  
+         <% }else if(user.accessLevel === 'viewer') {%>
+           <select class='ui fluid dropdown' name="accessLevel" id="access_input" required>
+              <option disabled value=''>Access Level</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+              <option selected value="viewer">Viewer</option>
+           </select>  
+         <% }%> 
+    </div>
+  </div>
+  <button type="submit" id ='registerBtn' class="btn btn-dark"><i class="fa fa-user-plus" aria-hidden="true"></i> Save</button>
+</form>
+</div>
+
+<% include partials/footer%>

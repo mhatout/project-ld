@@ -2,32 +2,119 @@
 
 <!--start of navbar-->
   <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
-  <div class="container">
+  <div id='navbarContainerDiv' class="container">
   <a class="navbar-brand" href="/">
     <img id="navbar-icon" class="hide" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
   </a>
-  <button id="addbtn" type="button" class="btn btn-sm align-right btn-outline-secondary "><i class="fa fa-plus" aria-hidden="true"></i> Add</button>
+  <div class='pull-right' style = 'padding-right:0'>
+    <a style='color:white; margin-right:5px;' href="#">
+      <% if(currentUser.accessLevel === 'founder'){%>
+         <%=currentUser.username%>
+      <% }else{ %>
+         Welcome <%=currentUser.username%>
+      <% } %>     
+    </a>  
+   <form class='displayInline' action='/logout' method='get'>     
+  <button id="logOutBtn" type="submit" class="btn btn-sm btn-outline-secondary "><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</button>
+   </form>
+  <% if(currentUser.accessLevel === 'founder'|| currentUser.accessLevel === 'admin'){%>
+  <button id="addbtn" type="button" class="btn btn-sm btn-outline-secondary btn-circle"><i class="fa fa-cogs" aria-hidden="true"></i></button>
+  <% } %>
+  </div>
   </div>
   </nav> 
+  <div id='flashMassege' class='container'>
+      <% if(success && success.length > 0){%>
+      <div class="alert alert-success" role="alert">
+           <%= success %>
+      </div>
+      <% } %>
+      <% if(error && error.length > 0){%>
+      <div class="alert alert-danger" role="alert">
+           <%= error %>
+      </div>
+      <% } %>
+  </div>
 <!--end of navbar-->
   <div id="btn-div" class="hide">
       <div id="inner-btn-div" class="main-con container">
-        <form action="/form" method="post"> 
-          <button id="add-vessel-btn" type="submit" name="add_vessel" class="btn btn-dark btn-lg"><i class="fa fa-ship" aria-hidden="true"></i> Add vessel</button>
-          <button id="add-user-btn" type="submit" name="add_user" class="btn btn-dark btn-lg"><i class="fa fa-user-plus" aria-hidden="true"></i> Add User</button>
-        </form>
+          <button id="add-vessel-btn" type="button" onclick="location.href='/vessel_form';" class="btn btn-dark "><i class="fa fa-ship" aria-hidden="true"></i> Add vessel</button>
+          <% if(currentUser.accessLevel === 'founder'){%>
+          <button id="add-user-btn" type="button" onclick="location.href='/user_form';" class="btn btn-dark "><i class="fa fa-users" aria-hidden="true"></i> Users Management</button>
+          <% }else{ %>
+          <button id="add-user-btn" name="add_user" class="btn btn-dark " disabled><i class="fa fa-users" aria-hidden="true"></i> Users Management</button>
+          <% } %>
       </div>
   </div>
+     <div class="main-con container">
+         <div id="toggleSearchDiv" class="fluid ui button"><i class="fa fa-search" aria-hidden="true"></i> Search</div>
+     
+     <div id='searchDiv' class='hide'>
+<!--start of datePicking div-->      
+      <div id="datePicerDiv">
+          <h4>Search By Date</h4>
+           <hr>
+              <form action='/findByDate' method='post' class="ui form">
+               <div class="two fields">
+                <div class="field">
+                 <label>Start date</label>
+                  <div class="ui calendar" id="rangestart">
+                   <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    <input type="text" name='startDate' placeholder="Start Date">
+                   </div>
+                  </div>
+                 </div>
+                <div class="field">
+                 <label>End date</label>
+                  <div class="ui calendar" id="rangeend">
+                   <div class="ui input left icon">
+                    <i class="calendar icon"></i>
+                    <input type="text" name='endDate' placeholder="End Date">
+                   </div>
+                  </div>
+                 </div>
+                </div>
+        <strong> <label for="dateType">Search By:</label></strong>
+  <div class="inline fields">
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="dateType" tabindex="0" value="createdDate" required>
+        <label>Created Date</label>
+      </div>
+    </div>
+    <div class="field">
+      <div class="ui radio checkbox">
+        <input type="radio" name="dateType" tabindex="0" value="deliveryDate" required>
+        <label>Delivery Date</label>
+      </div>
+    </div>
+    <div class="six wide field">
+        <button id='dateSearchBtn' name='searchBtn2' class="btn btn-outline-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+    </div>
+    </div>
+  </form>
+ </div>
+  
+<!--end of datePicking div-->  
+
 <!--start of content div-->
-  <div id="content-div">
-   <div class="main-con container">
-     <form class="form-inline my-2 my-lg-0" action ="/find" method="post">
-      <input id="search-input" name ="searchinput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" required>
-      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+  
+    <h4>Search By Details</h4>
+    <hr>   
+     <form class="ui form" action ="/findByDetails" method="post">
+      <div class="fields">
+      <div class="fifteen wide field">           
+      <input id="search-input" name ="searchinput" type="search" placeholder="Search" aria-label="Search" required>
+      </div>
+      <div class="four wide field"> 
+      <button id='findBtn' name='searchBtn1' class="btn btn-outline-secondary" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+      </div>
+      </div>
       <div id="toggleRadioBtn" class="fluid ui button"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
 <!--start of radio-btn div-->    
      <div id="radioBtn-div" class="inline fields hide">
-     <label for="fruit">Search for vessel by:</label>
+     <label for="searchRadioOptions">Search for vessel by:</label><br/>
     <div class="field">
       <div class="ui radio checkbox">
         <input type="radio" name="searchRadioOptions" id="inlineRadio1" value="name">
@@ -61,7 +148,11 @@
 <!--end of radio-btn div-->      
       </div>
       </form>
-        <table id="mainTable" class="table table-hover">
+      </div>
+      </div>
+      <div id="content-div">
+        <div class="main-con container">
+        <table id="mainTable" class="table table-hover ">
        <thead>
          <tr class= 'tableRow'>
            <th scope="col">#</th>
@@ -72,25 +163,26 @@
        </thead>
        <tbody>
        <% for(var i=0 ; i<vessels.length; i++){%>
-        <tr data-toggle="collapse" data-target="#hidden-row<%=i+1%>" class= 'tableRow'>
+       <div>
+        <tr data-toggle="collapse" data-target="#hidden-row<%=i+1%>" class= 'tableRow hide showRow'>
          <th scope="row"><%=i+1%></th>
          <td><%= vessels[i].name; %></td>
          <td><%= vessels[i].operation;%></td>
          <td id="statusCell<%=i%>"><%= vessels[i].status;%></td>
         </tr>
-        <tr>
+        <tr class="hide showRow">
             <td colspan="6" class="hiddenRow">
                 <div id = "hidden-row<%=i+1%>" class="accordian-body collapse hiddenTableRow">
                     <div class="ui raised segment">
                         <div class="card">
                           <div class="header">
-                            <span><%= vessels[i].name; %></span>
-                            <span class="pull-right"> <%= vessels[i].operation;%></span>
+                            <span class='focus'><%= vessels[i].name; %></span>
+                            <span class="pull-right focus"> <%= vessels[i].operation;%></span>
                           </div>
                           <hr> 
                          <div class="content">
                              <p class="hide" id="vesselId<%=i%>"><%=vessels[i]._id;%></p>
-                         <small><%= vessels[i].created.toDateString()%></small>
+                         <small><span class='focus'>Created In: </span><%= vessels[i].created.toDateString()%> <span class='focus'>by <%= vessels[i].createdBy%></span></small>
                          <div class="description">
                             <p>
                             <strong>Supervisor: </strong><span class="focus"><%=vessels[i].supervisor;%></span><br> 
@@ -117,14 +209,24 @@
                          </div>
                         <hr>
                         <div id ="checkbox-div">
+                        <% if(currentUser.accessLevel === 'viewer'){%>
+                        <span class="pull-left"><strong id='preparedText<%=i%>'>Prepared:</strong> <input type="checkbox" id="preparedCheck<%=i%>" class="preparedCheck" disabled></span>
+                        <span class="pull-right"><button id="showDeliverFormBtn<%=i%>" class="tiny ui secondary basic button showDeliverFormBtn " disabled><i class="fa fa-handshake-o" aria-hidden="true"></i> Deliver</button></span>
+                        <% }else{ %>
                         <span class="pull-left"><strong id='preparedText<%=i%>'>Prepared:</strong> <input type="checkbox" id="preparedCheck<%=i%>" class="preparedCheck"></span>
                         <span class="pull-left"><button id="additionBtn<%=i%>" class="tiny ui secondary basic button additionBtn hide"><i class="fa fa-plus" aria-hidden="true"></i> Add</button></span>
                         <span class="pull-right"><button id="showDeliverFormBtn<%=i%>" class="tiny ui secondary basic button showDeliverFormBtn"><i class="fa fa-handshake-o" aria-hidden="true"></i> Deliver</button></span>
+                        <% }%>
                         </div>
                     <div class="extra content">
                      <div class="ui two buttons">
+                        <% if(currentUser.accessLevel === 'founder'|| currentUser.accessLevel === 'admin'){%>
                         <a href="/<%=vessels[i]._id%>/edit" id='editBtn<%=i%>' class="ui basic blue button editBtn">Edit</a>
                         <div class="ui basic red button deleteBtn">Delete</div>
+                        <% }else{ %>
+                        <a href="#" id='editBtn<%=i%>' class="ui basic blue button disabled editBtn" disabled>Edit</a>
+                        <div class="ui basic red button deleteBtn disabled" >Delete</div>
+                        <% }%>
                         <% include partials/deleteconfirm %>
                      </div>
                     </div>
@@ -133,13 +235,52 @@
                 </div>
             </td>
         </tr>
+        </div>
        <% } %>
        </tbody>
     </table>
+   <div id='printableTable' class='hide'>
+       <table>
+         <thead>
+           <tr>
+             <th>#</th>
+             <th>Vessle Name</th>
+             <th>Op No</th>
+             <th>Supervisor</th>
+             <th>Purchaser</th>
+             <th>Status</th>
+             <th>ETA</th>
+             <th>Delivery date</th>
+             <th>Delivered to</th>
+           </tr>
+         </thead>
+         <tbody>
+           <% for(var i=0 ; i<vessels.length; i++){%>
+            <tr data-toggle="collapse" data-target="#hidden-row<%=i+1%>" class= 'tableRow'>
+              <th><%=i+1%></th>
+               <td><%= vessels[i].name; %></td>
+               <td><%= vessels[i].operation;%></td>
+               <td><%= vessels[i].supervisor;%></td>
+               <td><%= vessels[i].purchaser;%></td>
+               <td><%= vessels[i].status;%></td>
+               <td><%= vessels[i].eta;%></td>
+               <td><%= vessels[i].deliverDate;%></td>
+               <td><%= vessels[i].reciever;%></td>
+            </tr>
+           <% } %>
+         </tbody>  
+       </table>
+   </div>
+   <div id='showMore' class ='fluid ui grey button'><i class="fa fa-angle-double-down" aria-hidden="true"></i> Show More</div>
+   <div id='exportBtn' class ='fluid ui animated secondary button' tabindex="0">
+       <div class="visible content">Export Vessels</div>
+       <div class="hidden content">
+          <i class="fa fa-table" aria-hidden="true"></i> Excel  
+       </div>
+   </div>   
    </div>
   </div>
+  
+  <div class='hide' id='snackbar'>Some text here...</div>
   <!--end of content div-->
-  
-  <div id="snackbar" class="hide"><%=snackbartxt%></div>
-  
   <% include partials/footer%>

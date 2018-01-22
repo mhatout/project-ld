@@ -1,42 +1,79 @@
 <% include ./partials/header%>
 <!--start of navbar-->
   <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
-  <div class="container">
-  <a class="navbar-brand" >
-    <img id="navbar-icon" class="hide" src="/images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
-  </a>
-  </div>
+   <div class="container">
+    <a class="navbar-brand" href='/'>
+     <img id="navbar-icon" class="hide" src="/images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
+    </a>
+   </div>
   </nav> 
 <!--end of navbar-->
-
+    <div id='flashMassege' class='container'>
+      <% if(success && success.length > 0){%>
+      <div class="alert alert-success" role="alert">
+           <%=success%>
+      </div>
+      <% } %>
+      <% if(error && error.length > 0){%>
+      <div class="alert alert-danger" role="alert">
+           <%=error%>
+      </div>
+      <% } %>
+  </div>
     <div class="main-con container">
-      <form action="/<%=vessel._id;%>/edit-vessel?_method=PUT" method="post">
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="vessel-name-input">Vessle Name</label>
-            <input type="text" class="form-control" name="vessel[name]" id="vessel-name-input" placeholder="Vessle Name" value="<%=vessel.name;%>" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="op-no-input">Op No</label>
-            <input type="text" class="form-control" name="vessel[operation]" id="op-no-input" placeholder="Op No" value="<%=vessel.operation;%>" required>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6 mb-3">
-            <label for="supervisor">Supervisor</label>
-            <input type="text" class="form-control" name="vessel[supervisor]" id="supervisor" placeholder="Supervisor" value="<%=vessel.supervisor;%>" required>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label for="purchaser">Purchaser</label>
-            <input type="text" class="form-control" name="vessel[purchaser]" id="purchaser" placeholder="Purchaser" value="<%=vessel.purchaser;%>" required>
-          </div>
-          <div class="col-md-3 mb-3">
-            <label for="eta">ETA</label>
-            <input type="text" class="form-control" name="vessel[eta]" id="eta" placeholder="ETA" value="<%=vessel.eta;%>" required>
-          </div>
-        </div>
-        <button class="btn btn-dark" type="submit"><i class="fa fa-ship" aria-hidden="true"></i> Submit</button>
-      </form>
+      <form action="/<%=vessel._id;%>/edit-vessel?_method=PUT" method="post" class="ui form">
+  <h4 class="ui dividing header">Vessel details</h4>
+  <div class="two fields">
+    <div class="field">
+      <label for="vessel-name-input">Vessle Name</label>
+      <input type="text" class="form-control" name="vessel[name]" id="vessel-name-input" placeholder="Vessle Name" value="<%=vessel.name;%>" required>
+    </div>
+    <div class="field">
+      <label for="op-no-input">Op No</label>
+      <input type="text" class="form-control" name="vessel[operation]" id="op-no-input" placeholder="Op No" value="<%=vessel.operation;%>" required>
+    </div>
+  </div>
+  <div class="three fields">
+    <div class="field">
+      <label for="supervisor">Supervisor</label>
+      <select class='ui fluid dropdown' name="vessel[supervisor]" id="supervisor" required>
+          <option disabled selected value=''>Supervisor</option>
+          <option value="Fawzy">Fawzy</option>
+          <option value="Soltan">Soltan</option>
+          <option value="Mos3ad">Mos3ad</option>
+          <option value="Rakha">Rakha</option>
+          <option value="Adel">Adel</option>
+          <option value="Othman">Othman</option>
+          <option value="Nabil">Nabil</option>
+          <option value="Ghitany">Ghitany</option>
+          <option value="Ayman">Ayman</option>
+      </select>  
+    </div>
+    <div class="field">
+      <label for="purchaser">Purchaser</label>
+      <select class='ui fluid dropdown' name="vessel[purchaser]" id="purchaser" required>
+          <option disabled selected value=''>Purchaser</option>
+          <option value='Rakha'>Rakha</option>
+          <option value='Adel'>Adel</option>
+          <option value='Othman'>Othman</option>
+          <option value='Nabil'>Nabil</option>
+          <option value='Ghitany'>Ghitany</option>
+          <option value='Ayman'>Ayman</option>
+          <option value='Fawzy'>Fawzy</option>
+          <option value='Soltan'>Soltan</option>
+          <option value='Mos3ad'>Mos3ad</option>
+      </select>  
+    </div>
+    <div class="field">
+      <label for="eta">ETA</label>
+      <input type="text" class="form-control" name="vessel[eta]" id="eta" placeholder="ETA" value="<%=vessel.eta;%>" required>
+    </div>
+  </div>
+  <button class="btn btn-dark" type="submit"><i class="fa fa-ship" aria-hidden="true"></i> Submit</button>
+ </form>
     </div>
 </div>
+<div class='hide' id='snackbar'>Some text here...</div>
 <% include ./partials/footer%>
+
+

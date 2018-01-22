@@ -1,0 +1,82 @@
+
+<% include partials/header%>
+  <!--start of navbar-->
+  <nav id ="navbar" class="navbar fixed-top navbar-dark bg-dark">
+   <div class="container">
+    <a class="navbar-brand" href="/">
+     <img id="navbar-icon" class="hide" src="images/mov_LuckyDolphin_Logo.png" width="90" height="50"  alt="">
+    </a>
+   </div>
+  </nav> 
+  <!--end of navbar-->
+  <div id='flashMassege' class='container'>
+      <% if(success && success.length > 0){%>
+      <div class="alert alert-success" role="alert">
+           <%=success%>
+      </div>
+      <% } %>
+      <% if(error && error.length > 0){%>
+      <div class="alert alert-danger" role="alert">
+           <%= error %>
+      </div>
+      <% } %>
+  </div>
+<!--start of input-user div-->
+<div id="input-user-div" style="padding-top:1%">
+<div class="main-con container">
+<form class="ui form" action="/register" method="post">
+  <h1 class="ui center aligned icon header"><i class="fa fa-users" aria-hidden="true"></i></h1>
+  <h3 class="ui dividing header">Add User</h3>
+  <div class="field">
+    <label for="username_input">Username</label>
+    <input type="username" class="form-control" name="username" id="username_input" placeholder="Username" required>
+  </div>
+  <div class="two fields">
+   <div class="field">
+    <label for="password_input">Password</label>
+    <input type="password" class="form-control" name="password" id="password_input" placeholder="Password" required>
+   </div>
+   <div class="field">
+      <label for="access">Access Level</label>
+      <select class='ui fluid dropdown' name="accessLevel" id="access_input" required>
+          <option disabled selected value=''>Access Level</option>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+          <option value="viewer">Viewer</option>
+      </select>  
+    </div>
+  </div>
+  <button type="submit" id ='registerBtn' class="btn btn-dark"><i class="fa fa-user-plus" aria-hidden="true"></i> Register</button>
+</form>
+<div id="usersList">
+   <div id="toggleUserListBtn" class="fluid ui button"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+  <div id='userListTableDiv' class='hide'>
+  <h3 style="margin-top:1%" class="ui dividing header">Users Details</h3>
+   <table id='userListTable' class="ui single line basic sortable unstackable table">
+    <thead>
+      <tr>
+        <th style="color:white">#</th>
+        <th style="color:white">Name</th>
+        <th style="color:white">Access Level</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%for(var i=0; i< users.length; i++){%>  
+      <tr class='hoverableCell'>
+        <td><%= i+1 %></td>
+        <td><%= users[i].username %><span id='userId<%=i%>' class='hide'><%=users[i]._id%></span></td>
+        <td><span id='accessLevelSpan<%=i%>'><%= users[i].accessLevel %></span> <span class='tableIconSpan hide'>
+                                         <a href='/<%=users[i]._id%>/userEdit'><span class='tableEditSpan'><i class="fa fa-pencil" aria-hidden="true"></i></span></a>
+                                        <span class='tableDeleteSpan'><i class="fa fa-trash-o" aria-hidden="true"></i></span></span></td>
+      </tr> 
+    <% } %>  
+    </tbody>
+   </table>
+  </div>  
+</div>
+</div>
+</div>
+<!--end of input-user div-->
+
+<div class='hide' id='snackbar'>Some text here...</div>
+  <% include partials/footer%>

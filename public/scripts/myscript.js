@@ -1,20 +1,24 @@
 /*script for project LD*/
  
- var arrawDown = false;
-
- 
-$(document).ready(function(){
+ var arrawDown = false,
+    arrawDown2 = false;
     
-        updateVesselStatus();
+$(document).ready(function(){
         
+        updateVesselStatus();
+        var x=20;
         $("#navbar-icon , #navbar button").fadeIn(2000);
         $("#intro-div").fadeIn(2000);
         $("#loginbtn").on("click" , function(){
-        	$("#intro-div").hide();
-        	$("#login-div").fadeIn(2000, function(){
-        		$("#loginbtn").hide("slow");
-        	});
+            
+        	$("#intro-div").transition('horizontal flip', 1000, function() {
+                                          $("#login-div").fadeIn(1000, function(){
+        	                 	          $("#loginbtn").hide("slow");
+                          	               });
+            }); 
         });
+        
+        	
         $("#addbtn").on("click" , function(){
         	$("#btn-div").slideToggle(500);
         });
@@ -22,23 +26,52 @@ $(document).ready(function(){
                 var id = $(".deleteBtn").index(this)+1;
                 $("#deleteModal"+id).modal('show');
         });
-        $(".editBtn").on("click", function() {
-                var index = $(".editBtn").index(this)+1;
-                $("#editModal"+index).modal('show');
-        });
+       
         $(".cancelBtn").on("click", function() {
                 $(".ui.mini.basic.modal").modal('hide all'); 
         });
 	    $(".ui.mini.basic.modal").modal({
 		        closable: true
      	});
-     
+        
+        $(".showRow").slice(0, x).show();
+        
+        
+        $("#showMore").on('click', function (e) {
+          e.preventDefault();
+          $(".showRow:hidden").slice(0, 20).slideDown('slow');
+          if ($(".showRow:hidden").length == 0) {
+           $("#showMore").fadeOut(500);
+          }
+        });
+        $("#userListTable").tablesort();
+        
+        $("#username_input , #password_input").val("");
+        
+        $(".hoverableCell").hover(function(){
+             $(".tableIconSpan",this).transition('slide left');
+             }, function(){
+             $(".tableIconSpan",this).transition('slide left');
+       });
+       
+       setTimeout(function(){
+            $("#flashMassege").fadeOut(500);
+       },1500);
+       
+       $('#rangestart').calendar({
+          type: 'date',
+          endCalendar: $('#rangeend')
+       });
+       $('#rangeend').calendar({
+          type: 'date',
+          startCalendar: $('#rangestart')
+       });
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/     	
      	
 	$(".preparedCheck").on("click", function() {
 	   var index =  $(".preparedCheck").index(this),
-	       status = "Prepared",
-	       status2= "Under Progress";
+	       status = "Ready",
+	       status2= "In Progress";
 	   
 	  if($(this).is(':checked')){
 	        $.ajax({
@@ -79,16 +112,32 @@ $(document).ready(function(){
 	$("#toggleRadioBtn").on("click", function(){
 	        if(!arrawDown){
 	                $("#toggleRadioBtn").html('<i class="fa fa-chevron-up" aria-hidden="true"></i>');
-	              //  arrawDown =true;
 	        }else{
 	                $("#toggleRadioBtn").html('<i class="fa fa-chevron-down" aria-hidden="true"></i>');
-	               // arrawDown =false;
 	        }
 	        arrawDown =!arrawDown;
 	        $("#radioBtn-div").slideToggle(500);
-	});// end of on.click metode
+	});// end of on.click method
 	
-/*-----------------------------------------------------------------------------------------------------------------------------------------*/	
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
+
+	$("#toggleUserListBtn").on("click", function(){
+	        if(!arrawDown2){
+	                $("#toggleUserListBtn").html('<i class="fa fa-chevron-up" aria-hidden="true"></i>');
+	        }else{
+	                $("#toggleUserListBtn").html('<i class="fa fa-chevron-down" aria-hidden="true"></i>');
+	        }
+	        arrawDown2 =!arrawDown2;
+	        $("#userListTableDiv").slideToggle(500);
+	});// end of on.click method
+
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
+
+$("#toggleSearchDiv").on("click", function(){
+	        $("#searchDiv").slideToggle(500)
+	});// end of on.click method
+
+/*-----------------------------------------------------------------------------------------------------------------------------------------*/
 	
 	$(".showDeliverFormBtn").on("click", function() {
 	   var i =  $(".showDeliverFormBtn").index(this);
@@ -96,7 +145,7 @@ $(document).ready(function(){
 	   $(".deliveredBtn").removeClass("additionDelivery");
 	   $("#deliveryForm"+i).slideToggle(500);
 	   
-	}); // end of on.click metode
+	}); // end of on.click method
 	
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/	
 	
@@ -164,20 +213,19 @@ $(document).ready(function(){
                             $(".deliveredBtn").removeClass("additionDelivery");
                       },
                       error: function(xhr) {
-                            alert("Something went wrong.. Try again later..");
+                            showSnackbar("Something went wrong.. Try again later..");
                       }
 	         }); // end of ajax.
 	     }   
 	 } // end of else if statment.
 	 
-	}); // end of on.click metode.
+	}); // end of on.click method.
 	
 /*----------------------------------------------------------------------------------------------------------------------------------------*/
 
 	$(".additionBtn").on("click", function() {
 	    var i =  $(".additionBtn").index(this),
 	        btnText = $(this).text();
-	        console.log(btnText);
 	        switch (btnText) {
 	                    case (" Deliver"):
 	                           $(".deliveredBtn").addClass("additionDelivery");
@@ -200,17 +248,49 @@ $(document).ready(function(){
                                         $("#statusCell"+i).text(status2);
                                    },
                                    error: function(xhr) {
-                                        alert("Something went wrong.. Try again later..");
+                                        showSnackbar("Something went wrong.. Try again later..");
                                    }
 	                      }); // end of ajax
 	       } // end of switch 
-	}); // end of on.click metode
+	}); // end of on.click method
 	
-}); // end of on.ready metode
+	$("#exportBtn").click(function(e) {
+    window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printableTable').html()));
+    e.preventDefault();
+    });
+    
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+
+$(".tableDeleteSpan").on("click", function() {
+	    var i =  $(".tableDeleteSpan").index(this),
+	    accessLevel = $("#accessLevelSpan"+i).text();
+	    if(accessLevel === "founder"){
+	        showSnackbar(" Cannot Delete The Founder..");
+	    }else{
+	                      $.ajax({
+	                               url: "/user/delete?_method=delete",
+	                               data: {"id": $("#userId"+i).text()},
+                                   type: "POST",
+                                   success: function(response) {
+                                        document.location.href = '/user_form';
+                                        showSnackbar("User Deleted");
+                                   },
+                                   error: function(xhr) {
+                                        showSnackbar("Something went wrong.. Try again later..");
+                                   }
+	                      }); // end of ajax
+	    } // end of else
+	}); // end of on.click method
+	
+/*----------------------------------------------------------------------------------------------------------------------------------------*/
+    
+	
+}); // end of on.ready method 
 
 /*---------------------------------------------------------------------------*/
 
-function showSnackbar(){
+function showSnackbar(text){
+    $('#snackbar').html(text);
 	$('#snackbar').fadeIn(700).delay(2000).fadeOut(700);
 }
 
@@ -219,7 +299,7 @@ function updateVesselStatus(){
         var checkboxes = $(".preparedCheck"),
             reciever = $("#inputRecipient"+i).val();
         for(var i=0; i<checkboxes.length; i++){
-              if($("#statusCell"+i).text() === "Prepared"){
+              if($("#statusCell"+i).text() === "Ready"){
                   $("#preparedCheck"+i).attr("checked", true);
               }else if($("#statusCell"+i).text() === "Delivered"){
 	              $("#recieverSpan"+i).removeClass('hide');
@@ -249,12 +329,5 @@ function updateVesselStatus(){
 function getDate(){
     var today = new Date();
     return(today.toDateString());
-   /* var dd = today.getDate();
-    var mm = today.getMonth()+1; 
-    var yyyy = today.getFullYear();
-        if(dd<10) {dd='0'+dd;}
-        if(mm<10) {mm='0'+mm;} 
-        today = dd+'/'+mm+'/'+yyyy;
-    return today;*/
 }
  
