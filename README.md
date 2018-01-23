@@ -1,5 +1,5 @@
 # project-ld
-Web Application to store and filter operation in Lucky Dolphin Transit warehouse
+Web Application to store and filter operation in Lucky Dolphin Transit warehouse <br />
 Frontend Frameworks used in this application : { jquery, Bootstrap, Semantic UI }
 Node.js Packages used in this application : {
     "body-parser": "^1.18.2",
