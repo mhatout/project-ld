@@ -14,4 +14,10 @@ Node.js Packages used in this application : {<br />
     "passport-local-mongoose": "^4.4.0",<br />
     "semantic-ui-calendar": "0.0.8"<br />
   }<br />
-  
+  <br />
+Change DATABASEURL variable in app.js to mongodb location url.<br />
+<br />
+Username : atout<br />
+Password : 4991<br />
+<br />
+Hope you like it :):)
