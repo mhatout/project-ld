@@ -50,12 +50,10 @@ app.use(function(req, res, next){
 });
 app.use(router);
 
-createUser('M.atout', 'Mellon' , 'founder');
+createUser('M.atout', process.env.FOUNDER_PASSWORD , 'founder');
 createUser('viewer', process.env.VIEWER_PASSWORD , 'viewer');
 
 passport.use(new localStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server Started!!");
