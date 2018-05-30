@@ -30,7 +30,7 @@ app.use(session({
     mongooseConnection: mongoose.connection,
     collection: 'sessions' // default
   }),
-  cookie: { maxAge: 6 * 1000 }
+  cookie: { maxAge: 30 * 60 * 1000 }
 }));
 
 
