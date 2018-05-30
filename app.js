@@ -50,7 +50,7 @@ app.use(function(req, res, next){
 });
 app.use(router);
 
-createUser('M.atout', process.env.FOUNDER_PASSWORD , 'founder');
+createUser('M.atout', 'Mellon' , 'founder');
 createUser('viewer', process.env.VIEWER_PASSWORD , 'viewer');
 
 passport.use(new localStrategy(User.authenticate()));
