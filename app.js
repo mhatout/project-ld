@@ -6,10 +6,12 @@ methodOverride        = require("method-override"),
 flash                 = require("connect-flash"),
 passport              = require("passport"),
 localStrategy         = require("passport-local"),
-passportLocalMongoose = require("passport-local-mongoose"),
 User                  = require("./models/user"),
-Vessel                = require("./models/vessel"),
+session               = require("express-session"),
+mongoStore            = require('connect-mongo')(session),
+createUser            = require("./models/createUser"),
 router                = require("./routes/routes");
+
 
 
 
@@ -17,11 +19,21 @@ mongoose.connect(process.env.DATABASEURL, { useMongoClient: true });
 
 mongoose.Promise = global.Promise;
 
-app.use(require("express-session")({
-    secret:"For the love of my life KhoKha",
+require('./config/passport')(passport); 
+
+
+app.use(session({
+    secret:"FortheloveofmylifeKhoKha",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
+    store: new mongoStore({
+    mongooseConnection: mongoose.connection,
+    collection: 'sessions' // default
+  }),
+  cookie: { maxAge: 6 * 1000 }
 }));
+
+
 app.use(express.static("public"));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
@@ -38,9 +50,12 @@ app.use(function(req, res, next){
 });
 app.use(router);
 
+createUser('atout', process.env.FOUNDER_PASSWORD , 'founder');
+createUser('viewer', process.env.VIEWER_PASSWORD , 'viewer');
+
 passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 app.listen(process.env.PORT, process.env.IP, function(){
     console.log("Server Started!!");

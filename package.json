@@ -19,8 +19,11 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/Mhatout/project-ld#readme",
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
+    "client-sessions": "^0.8.0",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.6",

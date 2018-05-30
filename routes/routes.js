@@ -6,8 +6,6 @@ var express     = require("express"),
     middleware  = require("../middleware"),
     globalVessels =[];
     
-
-
 router.get("/", middleware.isLoggedIn, function(req, res){
     
      Vessel.find({},function(err,vessels){
@@ -52,17 +50,14 @@ router.get("/vessel_form", middleware.isLoggedIn, function(req, res) {
 
 /*---------------- User input Route ------------------------------- */
 
-router.post("/register", middleware.isLoggedIn, function(req, res){
-   User.register(new User({username: req.body.username, accessLevel: req.body.accessLevel}), req.body.password, function(err,user){
-       if(err){
-           req.flash("error", err.message);
-           return res.redirect("/user_form");
-       }else{
-            req.flash("success", "User created successfully..");
-            res.redirect("/user_form");
-       }
-   });
-});
+router.post("/register", middleware.isLoggedIn,
+   
+   passport.authenticate('local-signup', {
+		successRedirect : '/user_form', // redirect to the secure profile section
+		failureRedirect : '/user_form', // redirect back to the signup page if there is an error
+		failureFlash    : 'That username is already taken.',
+		successFlash    : "User created successfully"
+	}));
 
 /*------------------------------------------------------------------*/
 
@@ -90,7 +85,7 @@ router.get("/login", function(req, res){
     res.render("login");
 });
 
-router.post("/login",passport.authenticate("local",{
+router.post("/login",passport.authenticate("local-login",{
     successRedirect : "/",
     failureRedirect : "/login",
     failureFlash    : "Invalid username or password",
@@ -107,6 +102,7 @@ router.get("/logout", function(req, res){
     
     req.logout();
     req.flash("success", "You logged out successfully");
+    req.session.destroy();
     res.redirect("/login");
 });
 
@@ -144,28 +140,28 @@ router.get("/:id/userEdit", middleware.isLoggedIn, function(req, res) {
 
 router.put("/:id/userEdit", middleware.isLoggedIn, function(req, res) {
 
-     var username, password, accessLevel;
      User.findByIdAndRemove(req.params.id, function(err){
-         username= req.body.username,
-         password=req.body.password,
-         accessLevel= req.body.accessLevel;
        if(err){
            req.flash("error", "Something went wrong..try again later");
            res.redirect("/user_form");
        }else{
-           User.register(new User({username: username, accessLevel: accessLevel}), password, function(err,user){
-                               if(err){
-                                      
-                                      return res.redirect("/user_form");
-                               }else{
-                                      req.flash("success", "User edited successfully..");
-                                      res.redirect("/user_form");
-                  }
-             });
+           
+           var newUser            = new User();
+                // set the user's local credentials
+                newUser.username    = req.body.username;
+                newUser.password    = newUser.generateHash(req.body.password); // use the generateHash function in our user model
+                newUser.accessLevel = req.body.accessLevel;
+                
+        newUser.save(function(err) {
+                    if (err)
+                        return res.redirect("/user_form");
+                    req.flash("success", "User edited successfully..");
+                    res.redirect("/user_form");
+                });
+        
        }
    }); 
 });
-
 
 /*----------------------------------------------------------------- */
 
@@ -183,14 +179,6 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                           }
                           globalVessels=foundedVessel;
                           res.redirect("/index");
-                       /* Vessel.find({ 'name' : req.body.searchinput},function(err,foundVessels){
-                                if(err){
-                                        req.flash("Can't retrive data try again later!!");
-                                }else{
-                                        foundVessels = foundVessels.reverse();
-                                        res.render("index", {vessels : foundVessels});
-                                }
-                        }); */
                         break;
                     case ("status"):
                         for(var i=0; i<globalVessels.length; i++){
@@ -201,14 +189,6 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                           globalVessels=foundedVessel;
                           res.redirect("/index");
                         
-                        /*Vessel.find({ 'status' : req.body.searchinput},function(err,foundVessels){
-                                if(err){
-                                        req.flash("Can't retrive data try again later!!");
-                                }else{
-                                        foundVessels = foundVessels.reverse();
-                                        res.render("index", {vessels : foundVessels});
-                                }
-                        });*/
                         break;
                     case ("supervisor"):
                          
@@ -219,15 +199,6 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                           }
                           globalVessels=foundedVessel;
                           res.redirect("/index");
-                          
-                         /*Vessel.find({ 'supervisor' : req.body.searchinput},function(err,foundVessels){
-                                if(err){
-                                        req.flash("Can't retrive data try again later!!");
-                                }else{
-                                        foundVessels = foundVessels.reverse();
-                                        res.render("index", {vessels : foundVessels});
-                                }
-                         });*/
                         break;
                     case ("purchaser"):
                         
@@ -238,15 +209,6 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                           }
                           globalVessels=foundedVessel;
                           res.redirect("/index");
-                          
-                         /*Vessel.find({ 'purchaser' : req.body.searchinput},function(err,foundVessels){
-                                if(err){
-                                        req.flash("Can't retrive data try again later!!");
-                                }else{
-                                        foundVessels = foundVessels.reverse();
-                                        res.render("index", {vessels : foundVessels});
-                                }
-                         });*/
                         break;    
                     default:
                     
@@ -257,15 +219,6 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                           }
                           globalVessels=foundedVessel;
                           res.redirect("/index");
-                          
-                        /* Vessel.find({ 'operation' : req.body.searchinput},function(err,foundVessels){
-                                if(err){
-                                        req.flash("Can't retrive data try again later!!");
-                                }else{
-                                        foundVessels = foundVessels.reverse();
-                                        res.render("index", {vessels : foundVessels});
-                                }
-                         });*/
                 }
     });          
     
@@ -392,5 +345,5 @@ router.get("*", function(req, res){
 /*----------------------------------------------------------------- */
 
 
-
+// };
 module.exports = router;
