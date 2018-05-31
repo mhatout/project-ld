@@ -57,9 +57,18 @@
       </select>  
     </div>
     <div class="field">
-      <label for="eta">ETA</label>
-      <input type="text" class="form-control" name="vessel[eta]" id="eta" placeholder="ETA" required>
+    <label for="eta">ETA</label>
+     <div class="ui calendar vesselETA">
+      <div class="ui input left icon">
+        <i class="calendar icon"></i>
+       <input type="text" name='vessel[eta]' id="eta" placeholder="ETA" required>
+      </div>
+     </div>
     </div>
+    <!--<div class="field">-->
+    <!--  <label for="eta">ETA</label>-->
+    <!--  <input type="text" class="form-control" name="vessel[eta]" id="eta" placeholder="ETA" required>-->
+    <!--</div>-->
   </div>
   <input type="text" class="form-control hide" name="vessel[createdBy]" id="createdBy" value="<%=currentUser.username%>" readonly required>
   <button class="btn btn-dark" type="submit"><i class="fa fa-ship" aria-hidden="true"></i> Add Vessel</button>

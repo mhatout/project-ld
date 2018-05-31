@@ -68,6 +68,10 @@ $(document).ready(function(){
           type: 'date',
           startCalendar: $('#rangestart')
        });
+       
+       $('.vesselETA').calendar({
+          type: 'date'
+       });
 /*-------------------------------------------------------------------------------------------------------------------------------------------*/     	
      	
 	$(".preparedCheck").on("click", function() {
