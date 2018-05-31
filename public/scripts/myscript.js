@@ -1,4 +1,6 @@
 /*script for project LD*/
+
+/* global $ */
  
  var arrawDown = false,
     arrawDown2 = false;
@@ -134,7 +136,7 @@ $(document).ready(function(){
 /*-----------------------------------------------------------------------------------------------------------------------------------------*/
 
 $("#toggleSearchDiv").on("click", function(){
-	        $("#searchDiv").slideToggle(500)
+	        $("#searchDiv").slideToggle(500);
 	});// end of on.click method
 
 /*-----------------------------------------------------------------------------------------------------------------------------------------*/
@@ -254,10 +256,19 @@ $("#toggleSearchDiv").on("click", function(){
 	       } // end of switch 
 	}); // end of on.click method
 	
-	$("#exportBtn").click(function(e) {
-    window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printableTable').html()));
-    e.preventDefault();
-    });
+	$("#exportBtn").click(
+	   // function(e) {
+    // window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('#printableTable').html()));
+    // e.preventDefault();
+    // }
+    function(){
+  $("#printableTable").table2excel({
+    // exclude CSS class
+    exclude: ".noExl",
+    name: "Worksheet Name",
+    filename: "Vessels" //do not include extension
+  });
+  });
     
 /*----------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -296,15 +307,14 @@ function showSnackbar(text){
 
 
 function updateVesselStatus(){
-        var checkboxes = $(".preparedCheck"),
-            reciever = $("#inputRecipient"+i).val();
+        var checkboxes = $(".preparedCheck");
         for(var i=0; i<checkboxes.length; i++){
               if($("#statusCell"+i).text() === "Ready"){
                   $("#preparedCheck"+i).attr("checked", true);
               }else if($("#statusCell"+i).text() === "Delivered"){
 	              $("#recieverSpan"+i).removeClass('hide');
                   $("#etaSpan"+i).addClass("hide");
-	              $("#deliverDateSpan"+i).removeClass("hide");;
+	              $("#deliverDateSpan"+i).removeClass("hide");
 	              $("#preparedCheck"+i).addClass("hide");
 	              $("#preparedText"+i).addClass("hide");
 	              $("#additionBtn"+i).removeClass("hide");

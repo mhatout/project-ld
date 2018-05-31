@@ -7,8 +7,12 @@ var express     = require("express"),
     globalVessels =[];
     
 router.get("/", middleware.isLoggedIn, function(req, res){
-    
-     Vessel.find({},function(err,vessels){
+        
+        let now                = new Date().getTime();
+        let monthInMillisecond = 30*24*60*60*1000;
+        let monthFromNow       = now - monthInMillisecond;
+     Vessel.find({created : { $gt: new Date(monthFromNow) }},function(err,vessels){
+        
         if(err){
             req.flash("Can't retrive data try again later!!");
         }else{
@@ -169,19 +173,26 @@ router.put("/:id/userEdit", middleware.isLoggedIn, function(req, res) {
 
 router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
     
-    var foundedVessel =[];
+    let foundedVessel =[],
+        returnedvessels = [];
+    Vessel.find({},function(err,vessels){
+        if(err){
+            req.flash(err);
+        }else{
+            returnedvessels = vessels.reverse();
+    
         switch (req.body.searchRadioOptions) {
                     case ("name"):
-                          for(var i=0; i<globalVessels.length; i++){
-                              if(globalVessels[i].name === req.body.searchinput){
-                                  foundedVessel.push(globalVessels[i]);
+                          for(let i=0; i<returnedvessels.length; i++){
+                              if(returnedvessels[i].name === req.body.searchinput){
+                                  foundedVessel.push(returnedvessels[i]);
                               }
                           }
-                          globalVessels=foundedVessel;
+                          returnedvessels=foundedVessel;
                           res.redirect("/index");
                         break;
                     case ("status"):
-                        for(var i=0; i<globalVessels.length; i++){
+                        for(let i=0; i<globalVessels.length; i++){
                               if(globalVessels[i].status === req.body.searchinput){
                                   foundedVessel.push(globalVessels[i]);
                               }
@@ -192,7 +203,7 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                         break;
                     case ("supervisor"):
                          
-                         for(var i=0; i<globalVessels.length; i++){
+                         for(let i=0; i<globalVessels.length; i++){
                               if(globalVessels[i].supervisor === req.body.searchinput){
                                   foundedVessel.push(globalVessels[i]);
                               }
@@ -202,7 +213,7 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                         break;
                     case ("purchaser"):
                         
-                        for(var i=0; i<globalVessels.length; i++){
+                        for(let i=0; i<globalVessels.length; i++){
                               if(globalVessels[i].purchaser === req.body.searchinput){
                                   foundedVessel.push(globalVessels[i]);
                               }
@@ -212,14 +223,16 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                         break;    
                     default:
                     
-                         for(var i=0; i<globalVessels.length; i++){
-                              if(globalVessels[i].operation === req.body.searchinput){
-                                  foundedVessel.push(globalVessels[i]);
+                         for(let i=0; i<returnedvessels.length; i++){
+                              if(returnedvessels[i].operation === req.body.searchinput){
+                                  foundedVessel.push(returnedvessels[i]);
                               }
                           }
                           globalVessels=foundedVessel;
                           res.redirect("/index");
                 }
+        }
+      });         
     });          
     
 router.post("/findByDate", middleware.isLoggedIn, function(req, res){
