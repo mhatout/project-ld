@@ -18,6 +18,6 @@ Node.js Packages used in this application : {<br />
 Change DATABASEURL variable in app.js to mongodb location url.<br />
 <br />
 Username : viewer<br />
-Password : viewer<br />
+Password : Mellon<br />
 <br />
 Hope you like it :):)
