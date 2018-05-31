@@ -192,9 +192,9 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                           res.redirect("/index");
                         break;
                     case ("status"):
-                        for(let i=0; i<globalVessels.length; i++){
-                              if(globalVessels[i].status === req.body.searchinput){
-                                  foundedVessel.push(globalVessels[i]);
+                        for(let i=0; i<returnedvessels.length; i++){
+                              if(returnedvessels[i].status === req.body.searchinput){
+                                  foundedVessel.push(returnedvessels[i]);
                               }
                           }
                           globalVessels=foundedVessel;
@@ -203,9 +203,9 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                         break;
                     case ("supervisor"):
                          
-                         for(let i=0; i<globalVessels.length; i++){
-                              if(globalVessels[i].supervisor === req.body.searchinput){
-                                  foundedVessel.push(globalVessels[i]);
+                         for(let i=0; i<returnedvessels.length; i++){
+                              if(returnedvessels[i].supervisor === req.body.searchinput){
+                                  foundedVessel.push(returnedvessels[i]);
                               }
                           }
                           globalVessels=foundedVessel;
@@ -213,9 +213,9 @@ router.post("/findByDetails", middleware.isLoggedIn, function(req, res){
                         break;
                     case ("purchaser"):
                         
-                        for(let i=0; i<globalVessels.length; i++){
-                              if(globalVessels[i].purchaser === req.body.searchinput){
-                                  foundedVessel.push(globalVessels[i]);
+                        for(let i=0; i<returnedvessels.length; i++){
+                              if(returnedvessels[i].purchaser === req.body.searchinput){
+                                  foundedVessel.push(returnedvessels[i]);
                               }
                           }
                           globalVessels=foundedVessel;
